@@ -43,45 +43,11 @@ public class Main {
 		 * 3	10871	X보다 작은 수
 		 */
 		
+		/*
 		Scanner sc = new Scanner(System.in);
 		
 		getLessX(sc);
-	}
-	
-	public static void getLessX(Scanner sc) {
-	
-		int loop = sc.nextInt();
-		
-		int lessThen = sc.nextInt();
-		
-		List<Integer> list = new ArrayList<>();
-		
-		while(loop-->0) {
-			
-			list.add(sc.nextInt());
-		}
-
-		String value = list.stream()
-							.filter(x->x<lessThen)
-							.collect(Collectors.toList())
-							.toString()
-							.replace("[", "")
-							.replace("]", "")
-							.replace(",", "");
-		
-		System.out.println(value);
-		
-	}
-	
-	public static void getTreepleMiddleValue(Scanner sc){
-		
-		int value = Arrays.asList(sc.nextInt(), sc.nextInt(), sc.nextInt())
-					.stream()
-					.sorted()
-					.collect(Collectors.toList())
-					.get(1);
-		
-		System.out.println(value);
+		*/
 	}
 	
 	public static void getMatcher(Scanner sc) {
@@ -105,4 +71,41 @@ public class Main {
 		
 		System.out.println(gradeName);
 	}
+
+	public static void getTreepleMiddleValue(Scanner sc){
+		
+		int value = Arrays.asList(sc.nextInt(), sc.nextInt(), sc.nextInt())
+					.stream()
+					.sorted()
+					.collect(Collectors.toList())
+					.get(1);
+		
+		System.out.println(value);
+	}
+	
+	public static void getLessX(Scanner sc) {
+	
+		int loop = sc.nextInt();
+		
+		int lessThen = sc.nextInt();
+		
+		List<Integer> list = new ArrayList<>();
+		
+		while(loop-->0) {
+			
+			list.add(sc.nextInt());
+		}
+
+		String value = list.stream()
+						.filter(x->x<lessThen)
+						.collect(Collectors.toList())
+						.toString()
+						.replace("[", "")
+						.replace("]", "")
+						.replace(",", "");
+		
+		System.out.println(value);
+		
+	}
+	
 }

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+buildpath=${1:-/Users/lee/dev/java/SprignEducation/poi-ext/src/Main.java}
+
+cp ./Main.java $buildpath

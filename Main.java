@@ -1,12 +1,18 @@
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -75,6 +81,24 @@ public class Main {
 		/*
 		getLoopCycle(sc);
 		*/
+	
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 1	1152	단어의 개수
+		 */
+		getTokenCount(sc);
+	}
+	
+	public static void getTokenCount(Scanner sc) throws IOException {
+		
+		int value = new StringTokenizer(
+						new BufferedReader(
+								new InputStreamReader(System.in)).readLine())
+																 .countTokens();
+		
+		System.out.print(value);
 	}
 	
 	/**

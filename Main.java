@@ -93,10 +93,7 @@ public class Main {
 	
 	public static void getTokenCount(Scanner sc) throws IOException {
 		
-		int value = new StringTokenizer(
-						new BufferedReader(
-								new InputStreamReader(System.in)).readLine())
-																 .countTokens();
+		int value = new StringTokenizer(new BufferedReader(new InputStreamReader(System.in)).readLine()).countTokens();
 		
 		System.out.print(value);
 	}

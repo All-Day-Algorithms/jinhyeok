@@ -1,18 +1,23 @@
+package TT;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
+	
+	public static void main(String[] args) 
+				throws IOException {
+		
+		long start = System.currentTimeMillis();
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -22,18 +27,18 @@ public class Main {
 		 * ---------------------
 		 * 1	9498	시험 성적
 		 */
-		
+
 		/*
 		getMatcher(sc);
 		*/
-		
+
 		/**	
 		 * ---------------------
 		 * 단계    문제 번호     제목
 		 * ---------------------
 		 * 2	10817	세 수
 		 */
-		
+
 		/*
 		getTreepleMiddleValue(sc);
 		*/
@@ -44,29 +49,29 @@ public class Main {
 		 * ---------------------
 		 * 3	10871	X보다 작은 수
 		 */
-		
+
 		/*
 		getLessX(sc);
 		*/
-		
+
 		/**
 		 * ---------------------
 		 * 단계    문제 번호     제목
 		 * ---------------------
-		 * 4	      1546	      평균
+		 * 4    1546       평균
 		 */
-		
+
 		/*
 		getAverage(sc);
 		*/
-		
+
 		/**
 		 * ---------------------
 		 * 단계    문제 번호     제목
 		 * ---------------------
-		 * 5	     4344        평균은 넘겠지
+		 * 5    4344       평균은 넘겠지
 		 */
-		
+
 		/*
 		getAverageOver(sc);
 		*/
@@ -75,29 +80,150 @@ public class Main {
 		 * ---------------------
 		 * 단계    문제 번호     제목
 		 * ---------------------
-		 * 6	      1110	     더하기 사이클
+		 * 6    1110        더하기 사이클
 		 */
 		
 		/*
 		getLoopCycle(sc);
 		*/
-	
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 1	4673	셀프 넘버
+		 */
+
+		/*
+		getNotSelfNumber();
+		*/
+
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 2	1065	한수
+		 */	
+		
+		/*
+		getSinleDefValue(sc);
+		*/
+		
+		getPrintStart(sc);
+
 		/**
 		 * ---------------------
 		 * 단계    문제 번호     제목
 		 * ---------------------
 		 * 1	1152	단어의 개수
 		 */
+
+		/*
 		getTokenCount(sc);
+		*/
+		
+		long end = System.currentTimeMillis();
+
+		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
 	}
 	
 	public static void getTokenCount(Scanner sc) throws IOException {
 		
 		int value = new StringTokenizer(new BufferedReader(new InputStreamReader(System.in)).readLine()).countTokens();
 		
+		
 		System.out.print(value);
 	}
 	
+	public static void getPrintStart (Scanner sc) {
+		
+		int iLine, iLoop, iCell;  
+		
+		iCell = (iLoop = iLine = sc.nextInt())*2;
+		
+		while(iLoop-->0) {
+			
+		}
+		
+		
+		
+	}
+	
+	public static void getSinleDefValue (Scanner sc) {
+		
+		int loop = sc.nextInt();
+		
+		List<Integer> list = new ArrayList<>();
+		
+		while(loop-->0) {
+			
+			list.add(loop+1);
+		}
+		
+		long value = list.stream().filter(e->{
+			
+			int f = e;
+			
+			if(e/100 == 0) return true;
+			
+			int af = f%10
+			  , bf = f/10%10
+			  , cf = bf-af;
+
+			while(f/10 != 0)
+				if((bf = (f = f/10)%10)-af != cf) return false;
+				else af = bf;
+
+			return true;
+
+		}).count();
+		
+		
+		System.out.println(value);
+	}
+	
+	/**
+	 * Test ::
+	 */
+	public static void getNotSelfNumber () {
+		
+		final int loop = 10000;
+		
+		Set<Integer> set = new HashSet<>();
+		
+		StringBuffer sb = new StringBuffer();
+
+		for(int localLoop = 1; 
+			    localLoop < loop;
+				_getCachedSelfNumber(localLoop++, loop, set)) {
+
+			if(!set.contains(localLoop)) sb.append(localLoop+"\n");
+		}
+		
+		
+		System.out.print(sb.toString());
+	}
+
+	public static void _getCachedSelfNumber (int loop, int pool, Set<Integer> set) {
+		
+		int cache;
+		
+		while(loop<pool) {
+			
+			while((cache = loop)/10 > 0) {
+				loop += cache % 10;
+				cache = cache / 10;
+			}
+
+			loop += cache % 10;
+
+			if(set.contains(loop))return;
+
+			set.add(loop);
+		}
+
+	}
+
 	/**
 	 * Test ::
 	 * 1
@@ -116,6 +242,7 @@ public class Main {
 			leak = (leak%10 *10) + ((leak/10 + leak%10)%10);
 			count++;
 		}while(root != leak);
+		
 		
 		System.out.println(count);
 	}
@@ -143,7 +270,7 @@ public class Main {
 			
 			subloop = sc.nextInt();
 			
-			List<Integer> gradeList = getIntList(subloop, sc);
+			List<Integer> gradeList = getIntListForScanner(subloop, sc);
 			
 			final double dAverage = gradeList.stream()
 					                         .reduce((x,y) -> x+y)
@@ -153,6 +280,7 @@ public class Main {
 					                                          .filter(x -> x>dAverage)
 					                                          .count() / (double)subloop *100 ));
 		}
+		
 		
 		System.out.println(builder.toString());
 	}
@@ -168,7 +296,7 @@ public class Main {
 		
 		int loop = sc.nextInt();
 		
-		List<Double> list = getDoubleList(loop, sc);
+		List<Double> list = getDoubleListForScanner(loop, sc);
 		
 		final Double MaxScore = list.stream()
 				                    .sorted((x,y)->(int)(y-x))
@@ -178,6 +306,7 @@ public class Main {
 		double value = list.stream()
 				           .map(x->x/MaxScore*100)
 				           .collect(Collectors.averagingDouble(x->x));
+		
 		
 		System.out.println(value);
 		
@@ -219,6 +348,7 @@ public class Main {
 					.collect(Collectors.toList())
 					.get(1);
 		
+		
 		System.out.println(value);
 	}
 	
@@ -235,7 +365,7 @@ public class Main {
 		
 		int lessThen = sc.nextInt();
 		
-		List<Integer> list = getIntList(loop, sc);
+		List<Integer> list = getIntListForScanner(loop, sc);
 
 		String value = list.stream()
                         .filter(x->x<lessThen)
@@ -243,11 +373,12 @@ public class Main {
                         .toString()
                         .replaceAll("[\\[,\\]]", "");
 		
+		
 		System.out.println(value);
 		
 	}
 	
-	public static <T> List<T> getList (int loop, Scanner sc, Class<T> klazz, ScannerCallback<T> scannerCallback) {
+	public static <T> List<T> getListForScanner (int loop, Scanner sc, Class<T> klazz, ScannerCallback<T> scannerCallback) {
 		
 		List<T> list = new ArrayList<>();
 		
@@ -259,14 +390,14 @@ public class Main {
 		return list;
 	}
 
-	public static List<Integer> getIntList (int loop, final Scanner sc) {
+	public static List<Integer> getIntListForScanner (int loop, final Scanner sc) {
 		
-		return getList(loop, sc, Integer.class, scanner -> scanner.nextInt());
+		return getListForScanner(loop, sc, Integer.class, scanner -> scanner.nextInt());
 	}
 	
-	public static List<Double> getDoubleList (int loop, Scanner sc) {
+	public static List<Double> getDoubleListForScanner (int loop, Scanner sc) {
 		
-		return getList(loop, sc, Double.class , scanner -> scanner.nextDouble());
+		return getListForScanner(loop, sc, Double.class , scanner -> scanner.nextDouble());
 	}
 	
 	interface ScannerCallback<T> {

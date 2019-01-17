@@ -318,54 +318,60 @@ public class Main {
 		
 		if(iSLV == 1) {
 
-			new_container[0][iMeddle]   = 1;
-			new_container[1][iMeddle-1] = 1;
-			new_container[1][iMeddle+1] = 1;
+			new_container[0][iMeddle] 
+					= new_container[1][iMeddle-1]
+							= new_container[1][iMeddle+1]
+									= 1;
 			
 			int cks = iMeddle+3;
 			
 			while(cks-->iMeddle-2)
 				new_container[2][cks] = 1;
 			
-			container = new_container;
 		} else {
 			
 			for(int x = 0 ; x < container.length ; x++) {
 
 				for(int y = 0 ; y < container[x].length ; y++ ){
 					
-					new_container[x][y+iExPoint]      = container[x][y];
-					new_container[iExLine][y]         = container[x][y];
-					new_container[iExLine][iHeight+y] = container[x][y];
+					new_container[x][y+iExPoint] 
+							= new_container[iExLine][y] 
+									= new_container[iExLine][iHeight+y] 
+											= container[x][y];
 				}
 
 				iExLine++;
 			}
 
-			container = new_container;
+			
 		}
 		
 		if(iSLV >= iCLV) {
 			
-			StringBuilder sb = new StringBuilder();
-			
-			for(int x = 0 ; x < container.length ; x++) {
-				
-				for(int y = 0 ; y < container[x].length ; y++) {
-					
-					sb.append(container[x][y] == 0 ? " " : "*");
-				}
-				
-				sb.append("\n");
-			}
-			
-			
-			System.out.println(sb.toString());
+			_rendering(new_container);
 		} else {
 
-			_getPrintStar(container, iSLV*2, iCLV);
+			_getPrintStar(new_container, iSLV*2, iCLV);
 		}
 		
+	}
+	
+	public static void _rendering(int[][] container){
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(int x = 0 ; x < container.length ; x++) {
+			
+			for(int y = 0 ; y < container[x].length ; y++) {
+				
+				sb.append(container[x][y] == 0 ? " " : "*");
+			}
+			
+			sb.append("\n");
+		}
+		
+		
+		System.out.println(sb.toString());
 	}
 	
 	/**

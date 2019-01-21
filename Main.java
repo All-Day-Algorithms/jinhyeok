@@ -3,12 +3,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.function.BinaryOperator;
+import java.util.function.IntConsumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
@@ -161,9 +170,113 @@ public class Main {
 		/*
 		getSelectiveAverage(sc);
 		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 1	11654	아스키 코드
+		 */
+		
+		/*
+		getConvertAscii(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 2	10809	알파벳 찾기
+		 */
+		
+		/*
+		getArangeOfAlpha(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 3	2675	문자열 반복
+		 */
+		
+		/*
+		getLoopString(sc);
+		*/
+		
+		getCountingGroup(sc);
+		
 		long end = System.currentTimeMillis();
 
-		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+	}
+	
+	
+	public static void getCountingGroup(Scanner sc) {
+		String sStr = sc.nextLine();
+		Collection<List<String>> list = Arrays.stream(sStr.split("")).collect(Collectors.groupingBy(e->e.toUpperCase())).values();
+
+		Iterator<List<String>> its = list.iterator();
+		
+		while(its.hasNext()) {
+			its.next();
+		}
+		
+	}
+	
+	public static void getLoopString(Scanner sc) {
+		
+		int iLoop = sc.nextInt();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		while(iLoop --> 0){
+			
+			int iSize = sc.nextInt();
+			
+			new StringBuffer(sc.next().trim()).chars().forEach(e-> {
+				for(int i = 0 ; i < iSize ; i++) sb.append((char)e);
+			});
+			
+			sb.append("\n");
+		}
+		
+		System.out.println(sb);
+	}
+	
+	/**
+	 * Test ::
+	 * baekjoon
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getArangeOfAlpha(Scanner sc) {
+		
+		String sStr = sc.next();
+		
+		int[] aList = new StringBuffer("abcdefghijklmnopqrstuvwxyz")
+							.chars()
+							.map((v) -> sStr.indexOf(v))
+							.toArray();
+		
+		String cachedResult; 
+		for (int i = 0 ; i < aList.length ; i++) {
+			
+			cachedResult = i == aList.length-1 ? aList[i] + "" : aList[i]+" ";	
+				
+			System.out.print(cachedResult);
+		}
+		
+	}
+	
+	public static void getConvertAscii(Scanner sc) {
+		
+		String sStr = sc.next();
+		
+		char cObjectString = sStr.substring(0,1).charAt(0);
+		
+		
+		System.out.println((int)cObjectString);
 	}
 	
 	/**

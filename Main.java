@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -204,23 +205,58 @@ public class Main {
 		getLoopString(sc);
 		*/
 		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 4	1157	단어 공부
+		 */
+		
 		getCountingGroup(sc);
 		
 		long end = System.currentTimeMillis();
 
-		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
 	}
 	
 	
 	public static void getCountingGroup(Scanner sc) {
-		String sStr = sc.nextLine();
-		Collection<List<String>> list = Arrays.stream(sStr.split("")).collect(Collectors.groupingBy(e->e.toUpperCase())).values();
-
-		Iterator<List<String>> its = list.iterator();
 		
-		while(its.hasNext()) {
-			its.next();
+		int[] Lascii = new int[26];
+		String sStr = sc.nextLine();
+		
+		Arrays.stream(sStr.split("")).forEach(e->{
+			
+			++Lascii[(int)e.toUpperCase().charAt(0)-65];
+		});
+		
+		int Lsize = Lascii.length;
+		int iMaxIndex = 0;
+		int iCount = 0;
+		int iMax = -1;
+		int iTemp;
+		
+		while(Lsize-->0) {
+			iTemp = Lascii[Lsize];
+			
+			if(iTemp == iMax) {
+				iCount++;
+			}
+			
+			if(iTemp > iMax) {
+				iMaxIndex = Lsize;
+				iMax = iTemp;
+				iCount = 1;
+			}
+			
+
 		}
+		if(iCount > 1){
+			System.out.println("?");
+		} else {
+			System.out.println((char)(iMaxIndex+65));
+		}
+		
 		
 	}
 	
@@ -752,6 +788,5 @@ public class Main {
 		
 		T getValue(Scanner sc);
 	}
-	
 	
 }

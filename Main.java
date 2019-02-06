@@ -3,15 +3,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.function.IntBinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -165,8 +161,6 @@ public class Main {
 		/*
 		getSelectiveAverage(sc);
 		*/
-		
-		getMatcher(sc);
 		long end = System.currentTimeMillis();
 
 		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
@@ -219,7 +213,7 @@ public class Main {
 		}
 	}
 	
-	public static String _getPlainText(Stream<String> stream) {
+	public static String _getPlainText(Stream stream) {
 		
 		return stream.collect(Collectors.toList()).toString().replaceAll("[\\[,\\]]", "");
 	}
@@ -336,10 +330,10 @@ public class Main {
 			
 		} else {
 			
-			for ( int x = 0 ; x < container.length ; x++) {
+			for(int x = 0 ; x < container.length ; x++) {
 
-				for ( int y = 0 ; y < container[x].length ; y++ ) {
-
+				for(int y = 0 ; y < container[x].length ; y++ ){
+					
 					new_container[x][y+iExPoint] 
 							= new_container[iExLine][y] 
 									= new_container[iExLine][iHeight+y] 
@@ -548,42 +542,26 @@ public class Main {
 		
 	}
 	
-	/**
-	 * Test :: 
-	 * 90
-	 * 
-	 * @param sc Scanner
-	 */
 	public static void getMatcher (Scanner sc) {
-		
-		String value;
 		
 		int grade = sc.nextInt();
 		
-		Map<Integer, String> dashboard = new HashMap<>();
+		String gradeName;
 		
-		dashboard.put(90, "A");
-		dashboard.put(80, "B");
-		dashboard.put(70, "C");
-		dashboard.put(60, "D");
-		dashboard.put(0 , "F");
+		if(grade/90 == 1){
+			gradeName = "A";
+		} else if(grade/80 == 1) {
+			gradeName = "B";
+		} else if(grade/70 == 1) {
+			gradeName = "C";
+		} else if(grade/60 == 1) {
+			gradeName = "D";
+		} else {
+			gradeName = "F";
+		}
 		
-		value = getMatcher(grade, dashboard);
 		
-		
-		System.out.println(value);
-	}
-	
-	public static String getMatcher (int grade, Map<Integer, String> dashboard) {
-		
-		List<Integer> list;
-		
-		Collections.sort(list = new ArrayList<Integer>(dashboard.keySet()), (e,f) -> f-e);
-		
-		return dashboard.get(list.stream()
-							.filter(e -> grade>=e)
-							.findFirst()
-							.get());
+		System.out.println(gradeName);
 	}
 
 	/**

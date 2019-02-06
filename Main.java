@@ -161,9 +161,403 @@ public class Main {
 		/*
 		getSelectiveAverage(sc);
 		*/
-		long end = System.currentTimeMillis();
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 1	11654	아스키 코드
+		 */
+		
+		/*
+		getConvertAscii(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 2	10809	알파벳 찾기
+		 */
+		
+		/*
+		getArangeOfAlpha(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 3	2675	문자열 반복
+		 */
+		
+		/*
+		getLoopString(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 4	1157	단어 공부
+		 */
+		
+		/*
+		getCountingGroup(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 5	1316	그룹 단어 체커
+		 */
+		
+		/*
+		getGroupWord(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 7	2908	상수
+		 */
+		
+		/*
+		getSangSu(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 8	5622	다이얼
+		 */
+		
+		/*
+		getDial(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 9	2941	크로아티아 알파벳
+		 */
+		
+		/*
+		getCroatiaAlpha(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 1	2438	별 찍기 - 1
+		 */
+		
+		/*
+		getStartOne(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 2	2292	벌집
+		 */
+		
+		getPrintBeeHouse(sc);
+		
+		//long end = System.currentTimeMillis();
 
-		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+	}
+	
+	/**
+	 * Test ::
+	 * 13
+	 * 
+	 * @param sc Scanner
+	 */
+	
+	public static void getPrintBeeHouse(Scanner sc) {
+		
+		int c = _factorialBee(sc.nextInt(), 1, 1);
+		System.out.println(c);
+		
+	}
+	
+	public static int _factorialBee(int c, int n, int k) {
+
+		if(c == 1) return 1;
+		
+		if((c-2) / (6*n) > 0) 
+			return _factorialBee(c, n+(++k), k);
+		
+		return k+1;
+	}
+	
+	/**
+	 * Test ::
+	 * 5
+	 * 
+	 * @param sc
+	 */
+	public static void getStartOne(Scanner sc) {
+		
+		int nStarCount = sc.nextInt();
+		int nLoopCount = nStarCount;
+		
+		while(nLoopCount-->0) {
+
+			System.out.println(_lpad("", (nStarCount - nLoopCount), '*'));
+		}
+	}
+	
+	public static String _lpad(String str, int count, char filler) {
+		
+		if(str.length() >= count) {
+			
+			return str;
+		}
+		
+		for(int s = str.length() ; s < count ; s++) {
+			str = str + filler;
+		}
+		
+		return str;
+	}
+	
+	/**
+	 * Test ::
+	 * c=ad-ljnjk
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getCroatiaAlpha(Scanner sc) {
+		
+		int nCount = sc.nextLine()
+				       .replaceAll("c=|c-|dz=|d-|lj|nj|s=|z=", " ")
+				       .length();
+		
+		
+		System.out.println(nCount);
+	}
+	
+	/**
+	 * Test :
+	 * UNUCIC
+	 * @param sc Scanner
+	 */
+	public static void getDial (Scanner sc) {
+		
+		final int nOffsetNumber = 65 - (3 * 2);
+
+		String sResult = Arrays.stream(sc.nextLine().split("")).reduce("0", (r,e)->{
+			
+			int nOrder = (int)e.charAt(0);
+
+			int nDiscunt = (nOrder > 82 ? nOrder > 89 ? 2 : 1 : 0);
+			
+			int oDialCount = 1 + ((nOrder - nDiscunt - nOffsetNumber) / 3);
+					
+			int nRepeat = Integer.valueOf(r) + oDialCount;
+
+			return Integer.toString(nRepeat);
+		});
+		
+		
+		System.out.println(sResult);
+	}
+	
+
+	
+	/**
+	 * Test ::
+	 * 734 893
+	 * @param sc Scanner
+	 */
+	public static void getSangSu(Scanner sc) {
+		
+		int value = Arrays.asList(sc.next(),sc.next())
+						  .stream()
+						  .map(Main::_getReverseWord)
+						  .map(Main::_getStringToInt)
+						  .sorted((e,f)->(f-e))
+						  .collect(Collectors.toList())
+						  .get(0).intValue();
+
+		
+		System.out.println(value);
+		
+	}
+	
+	public static String _getReverseWord(String str) {
+		StringBuffer sb = new StringBuffer();
+		
+		int reverLength = str.length();
+		
+		while(reverLength-->0) {
+			sb.append(str.charAt(reverLength));
+		}
+		
+		return sb.toString();
+	}
+	
+	public static int _getStringToInt(String s) {
+		return Integer.valueOf(s);
+	}
+	
+	/**
+	 * Test ::
+	 * 3
+	 * happy
+	 * new
+	 * year
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getGroupWord(Scanner sc) {
+		
+		String s = getStringListForScanner(sc.nextInt(), sc)
+						.stream()
+						.reduce("0", Main::_reduceOverGroup);
+
+		
+		System.out.println(s);
+	}
+	
+	private static String _reduceOverGroup(String param, String str) {
+		
+		Set<Character> cs = new HashSet<>();
+		
+		char cachedCharacter = 0;
+		
+		for(int iLength = 0 ; iLength < str.length() ; iLength++) {
+			
+			char c = str.charAt(iLength);
+			
+			if(cachedCharacter == c) continue;
+			
+			if(cs.contains(c)) return param;
+			
+			cs.add(cachedCharacter = c);
+		}
+		
+		return Integer.toString((Integer.valueOf(param))+1);
+	}
+	
+	/**
+	 * Test ::
+	 * Mississipi
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getCountingGroup(Scanner sc) {
+		
+		int[] Lascii = new int[26];
+		String sStr = sc.nextLine();
+		
+		Arrays.stream(sStr.split("")).forEach(e->{
+			
+			++Lascii[(int)e.toUpperCase().charAt(0)-65];
+		});
+		
+		final int nResetNumber = 1;
+		
+		int Lsize = Lascii.length;
+		int iMaxIndex = 0
+		   ,iCount = 0
+		   ,iMax = -1
+		   ,iTemp = iMax;
+		
+		while ( Lsize-->0 ) {
+			
+			iTemp = Lascii[Lsize];
+			
+			if ( iTemp == iMax ) {
+				
+				iCount++;
+			}else if ( iTemp > iMax ) {
+				
+				iMaxIndex = Lsize;
+				iMax = iTemp;
+				iCount = nResetNumber;
+			}
+		}
+		
+		System.out.println(iCount > 1 ? "?":(char)(iMaxIndex+65));
+	}
+	
+	/**
+	 * Test ::
+	 * 2
+	 * 3 ABC
+	 * 5 /HTP
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getLoopString(Scanner sc) {
+		
+		int iLoop = sc.nextInt();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		while(iLoop --> 0){
+
+			int iSize = sc.nextInt();
+
+			new StringBuffer(sc.next().trim()).chars().forEach(e-> {
+				for(int i = 0 ; i < iSize ; i++) sb.append((char)e);
+			});
+			
+			sb.append("\n");
+		}
+		
+		System.out.println(sb);
+	}
+	
+	/**
+	 * Test ::
+	 * baekjoon
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getArangeOfAlpha(Scanner sc) {
+		
+		String sStr = sc.next();
+		
+		int[] aList = new StringBuffer("abcdefghijklmnopqrstuvwxyz")
+							.chars()
+							.map((v) -> sStr.indexOf(v))
+							.toArray();
+		
+		String cachedResult; 
+		for (int i = 0 ; i < aList.length ; i++) {
+			
+			cachedResult = i == aList.length-1 ? aList[i] + "" : aList[i]+" ";	
+				
+			System.out.print(cachedResult);
+		}
+		
+	}
+	
+	/**
+	 * Test :: 
+	 * a
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getConvertAscii(Scanner sc) {
+		
+		String sStr = sc.next();
+		
+		char cObjectString = sStr.substring(0,1).charAt(0);
+		
+		
+		System.out.println((int)cObjectString);
 	}
 	
 	/**
@@ -619,7 +1013,7 @@ public class Main {
 		
 		return list;
 	}
-
+	
 	public static List<String> getStringListForScanner (int loop, final Scanner sc) {
 		sc.nextLine();
 		return getListForScanner(loop, sc, String.class, scanner -> scanner.nextLine());

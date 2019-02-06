@@ -212,14 +212,83 @@ public class Main {
 		 * 4	1157	단어 공부
 		 */
 		
+		/*
 		getCountingGroup(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 5	1316	그룹 단어 체커
+		 */
+		
+		/*
+		getGroupWord(sc);
+		*/
 		
 		long end = System.currentTimeMillis();
 
-		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
 	}
 	
+	public static String getReverseWord(String str) {
+		StringBuffer sb = new StringBuffer();
+		
+		int reverLength = str.length();
+		
+		while(reverLength-->0) {
+			sb.append(str.charAt(reverLength));
+		}
+		
+		return sb.toString();
+	}
 	
+	/**
+	 * Test ::
+	 * 3
+	 * happy
+	 * new
+	 * year
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void getGroupWord(Scanner sc) {
+		
+		String s = getStringListForScanner(sc.nextInt(), sc)
+						.stream()
+						.reduce("0", Main::_reduceOverGroup);
+
+		
+		System.out.println(s);
+	}
+	
+	private static String _reduceOverGroup(String param, String str) {
+		
+		Set<Character> cs = new HashSet<>();
+		
+		char cachedCharacter = 0;
+		
+		for(int iLength = 0 ; iLength < str.length() ; iLength++) {
+			
+			char c = str.charAt(iLength);
+			
+			if(cachedCharacter == c) continue;
+			
+			if(cs.contains(c)) return param;
+			
+			cs.add(cachedCharacter = c);
+		}
+		
+		return Integer.toString((Integer.valueOf(param))+1);
+	}
+	
+	/**
+	 * Test ::
+	 * Mississipi
+	 * 
+	 * @param sc Scanner
+	 */
 	public static void getCountingGroup(Scanner sc) {
 		
 		int[] Lascii = new int[26];
@@ -248,18 +317,23 @@ public class Main {
 				iMax = iTemp;
 				iCount = 1;
 			}
-			
-
 		}
+		
 		if(iCount > 1){
 			System.out.println("?");
 		} else {
 			System.out.println((char)(iMaxIndex+65));
 		}
-		
-		
 	}
 	
+	/**
+	 * Test ::
+	 * 2
+	 * 3 ABC
+	 * 5 /HTP
+	 * 
+	 * @param sc Scanner
+	 */
 	public static void getLoopString(Scanner sc) {
 		
 		int iLoop = sc.nextInt();
@@ -267,9 +341,9 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 		
 		while(iLoop --> 0){
-			
+
 			int iSize = sc.nextInt();
-			
+
 			new StringBuffer(sc.next().trim()).chars().forEach(e-> {
 				for(int i = 0 ; i < iSize ; i++) sb.append((char)e);
 			});
@@ -305,6 +379,12 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Test :: 
+	 * a
+	 * 
+	 * @param sc Scanner
+	 */
 	public static void getConvertAscii(Scanner sc) {
 		
 		String sStr = sc.next();
@@ -768,7 +848,7 @@ public class Main {
 		
 		return list;
 	}
-
+	
 	public static List<String> getStringListForScanner (int loop, final Scanner sc) {
 		sc.nextLine();
 		return getListForScanner(loop, sc, String.class, scanner -> scanner.nextLine());
@@ -788,5 +868,6 @@ public class Main {
 		
 		T getValue(Scanner sc);
 	}
+	
 	
 }

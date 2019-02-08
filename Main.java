@@ -268,11 +268,43 @@ public class Main {
 		 * 2	2292	벌집
 		 */
 		
+		/*
 		getPrintBeeHouse(sc);
+		*/
 		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 3	1193	분수찾기
+		 */
+		
+		getFraction(sc);
 		//long end = System.currentTimeMillis();
 
 		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+	}
+	
+	public static void getFraction(Scanner sc) {
+		int nFract = sc.nextInt();
+		
+		int[] iRsn = getRoundFraction(nFract);
+		
+		int nCount = iRsn[0] - iRsn[1] - nFract;
+		
+		System.out.println(nCount);
+		
+	}
+	
+	public static int[] getRoundFraction (int nSt) {
+		int[] nR = new int[]{1, 1};
+		
+		while(nSt > nR[0]) {
+			
+			nR[0]+=(++nR[1]);
+		}
+		System.out.println(nR[0]-nR[1]);
+		return nR;
 	}
 	
 	/**
@@ -281,7 +313,6 @@ public class Main {
 	 * 
 	 * @param sc Scanner
 	 */
-	
 	public static void getPrintBeeHouse(Scanner sc) {
 		
 		int c = _factorialBee(sc.nextInt(), 1, 1);

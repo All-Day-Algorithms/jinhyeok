@@ -1,10 +1,14 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -279,34 +283,273 @@ public class Main {
 		 * 3	1193	분수찾기
 		 */
 		
+		/*
 		getFraction(sc);
-		//long end = System.currentTimeMillis();
-
-		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 4	1011	Fly me to the Alpha Centauri
+		 */
+		
+		/*
+		getAlphaCentauri2(sc);
+		*/
+		
+		long end = System.currentTimeMillis();
+ 
+		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
 	}
 	
+	public static void getSortWord(Scanner sc) {
+		int nWordCount = sc.nextInt();
+	
+		getStringListForScanner(nWordCount, sc).stream().sorted((e,f)->{
+			int nLe = e.length();
+			int nLf = f.length();
+			
+			if(nLe == nLf) return _sortCompareTo(e, f);	
+			else return nLe - nLf;
+			
+		}).distinct().forEach(System.out::println);
+	}
+	
+	
+	public static int _sortCompareTo(String l, String f) {
+		
+		for(int iLength = 0 ; iLength < l.length() ; iLength++) {
+			int nCharDeff = l.charAt(iLength) - f.charAt(iLength);
+			
+			if(nCharDeff != 0) {
+				return nCharDeff;
+			}
+		}
+		
+		return 0;
+	}	
+
+	/**
+	 * Test ::
+	 * 3
+	 * 0 3
+	 * 1 5
+	 * 45 50
+	 * @param sc
+	 * @throws IOException 
+	 */
+	public static void getAlphaCentauri1(Scanner sc) throws IOException {
+		
+		int nCase = sc.nextInt();
+		
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		while(nCase --> 0) {
+			
+			int nX             = sc.nextInt()
+			  , nY             = sc.nextInt()
+			  , nInterval      = (nY - nX)
+			  , nWarpCount     = 1
+			  , nWarpInterval  = 1
+			  , nArrangedCount = 0;
+
+			BlackHole:
+			while(true) {
+			
+				for(int n = 0 ; n < 2 ; n++, nWarpCount++)
+					if(nInterval <= (nArrangedCount += nWarpInterval))
+						break BlackHole;
+
+				nWarpInterval++;
+			}
+			out.write(Integer.toString(nWarpCount)+"\n");
+		}
+		out.flush();
+	}
+	
+	/**
+	 * 예상 수의 범위를 계산한다.
+	 * 
+	 * @param num 예상 할 수액
+	 * @return 예상 수 값
+	 */
+	public static Map<Integer, Integer> cashedMap = new HashMap<>(); 
+	public static int getFactorialAccumNumberOver (int num) {
+		
+		if(num == 1) {
+			
+			return num;
+		}
+		
+		int iCached_Number;
+				
+		if(cashedMap.containsKey(num)) {
+
+			iCached_Number = cashedMap.get(num);
+		} else {
+			
+			iCached_Number = num + getFactorialAccumNumberOver(num-1);
+			cashedMap.put(num, iCached_Number);
+		}
+		
+		return iCached_Number;
+	}
+
+	/**
+	 * Test ::
+	 * 3
+	 * 0 3
+	 * 1 5
+	 * 45 50
+	 * @param sc
+	 * @throws IOException 
+	 */
+	public static void getAlphaCentauri2(Scanner sc) throws IOException {
+		
+		int iWrapTotalCount = sc.nextInt();
+		
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		// 최초 인자로 받아온 값 만큼 워프 한다. (3 대입)
+		while( iWrapTotalCount --> 0 ) {
+			
+			// 워프 시작 지점과 종료 지점을 설정 한다. (0 3 대입)
+			int nStart = sc.nextInt();
+			int nEnd   = sc.nextInt();
+			
+			// 총 워프 할 길이를 구한다. (종료 지점 - 시작 지점)
+			int iTotalWrapMeters = (nEnd - nStart);
+			
+			// 중간 지점까지는 속도를 증가 시킬 예정이므로 중간 지점을 구한다.
+			int iHalfMeters = Math.round(iTotalWrapMeters / (float)2);
+			
+			// 워프 거리, 횟수, 속도를 (1)로 초기화
+			int iWrapMeter = 1
+			   ,iWrapCount = 1
+			   ,iWrapSpeed = 1;
+			
+			// 워프 거리가 총 워프 거리에 도달 할 때 까지 순환
+			while(iWrapMeter < iTotalWrapMeters) {
+				
+				// 중간 지점 이전까지는 증가 또는 등식 연산
+				if(iWrapMeter < iHalfMeters) {
+					
+					// 중간 이전 까지는 증가 연산 [ 1,2,3,2,1] 의 경우에서 [1,2]에 해당
+					if(iWrapMeter + iWrapSpeed + 1 < iHalfMeters) {
+
+						iWrapMeter += iWrapSpeed += 1;
+					} else {
+
+						// 중간의 경우 현재 까지의 거리를 계산하여 증가 또는 등식 연산
+						if((iTotalWrapMeters - (iWrapMeter + iWrapSpeed + 1)) < iWrapMeter) {
+							
+							// 숫자 8의 경우 8 - (3 + 2 + 1) < 3 에 해딩
+							iWrapMeter += iWrapSpeed;
+						} else {
+							
+							// 숫자 9의 경우 9 - (3 + 2 + 1) < 3 에 해당
+							iWrapMeter += iWrapSpeed += 1;
+						}
+					}
+					
+				} else { 
+					// 중간 이후 부터는 증감 또는 등식 계산
+					
+					// 예상 가능한 수를 계산한다.
+					int iAccNumber = getFactorialAccumNumberOver(iWrapSpeed);
+	
+					// 이후 나올 총 예상 합계와 현재 합계를 계산하여 증감 또는 등식 연산  
+					if(iAccNumber > (iTotalWrapMeters - iWrapMeter)) {
+						
+						// 작을 경우 증감 연산
+						iWrapMeter += iWrapSpeed -= 1;
+						
+					} else {
+						// 많거나 같을 경우 등식 연산
+						iWrapMeter += iWrapSpeed;
+					}
+				}
+				iWrapCount++;
+			}
+			out.write(Integer.toString(iWrapCount)+"\n");
+		}
+		out.flush();
+	}
+	
+	public static Map<Integer, Integer> hm = new HashMap<>();
+	
+	public static int gf (int n) {
+		
+		if(n == 1) return n;
+		
+		int in;
+				
+		if(hm.containsKey(n)) in = hm.get(n);
+		else hm.put(n, in = n + gf(n-1));
+		
+		return in;
+	}
+	
+	/**
+	 * 난독화된 getAlphaCentauri2
+	 * @param sc Scanner
+	 * 
+	 * @throws IOException
+	 */
+	public static void getAlphaCentauri3(Scanner sc) throws IOException {
+		
+		int ic = sc.nextInt();
+		
+		BufferedWriter o = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		while( ic --> 0 ) {
+			
+			int s = sc.nextInt(), e = sc.nextInt(), im = (e - s)
+			   ,h = Math.round(im / (float)2)
+               ,m = 1, c = 1, sp = 1;
+			
+			while(m < im) {
+				m += m < h ? sp + 1 < h ? (sp += 1) : (im - (m + sp + 1)) < m ? sp : (sp += 1) : gf(sp) > (im - m) ? (sp -= 1) : sp;
+				c++;
+			}
+			o.write(Integer.toString(c)+"\n");
+		}
+		o.flush();
+	}
+
+	/**
+	 * Test ::
+	 * 14
+	 * 
+	 * @param sc Scanner
+	 */
 	public static void getFraction(Scanner sc) {
 		int nFract = sc.nextInt();
 		
-		int[] iRsn = getRoundFraction(nFract);
+		int[] iRsn = _getRoundFraction(nFract);
 		
-		int nCount = iRsn[0] - iRsn[1] - nFract;
+		int nLevel = 1;
+		int nCount = nFract - (iRsn[0] - (nLevel =iRsn[1]));
 		
-		System.out.println(nCount);
-		
+		int sP = nLevel % 2 == 0 ? nLevel-(nLevel - nCount) : (nLevel + 1 - nCount);
+		int sC = nLevel % 2 == 0 ? (nLevel + 1 - nCount) : nLevel-(nLevel - nCount);
+
+
+		System.out.println(sP+"/"+sC);
 	}
 	
-	public static int[] getRoundFraction (int nSt) {
+	public static int[] _getRoundFraction (int nSt) {
 		int[] nR = new int[]{1, 1};
 		
 		while(nSt > nR[0]) {
 			
 			nR[0]+=(++nR[1]);
 		}
-		System.out.println(nR[0]-nR[1]);
+		
 		return nR;
 	}
-	
+
 	/**
 	 * Test ::
 	 * 13
@@ -316,10 +559,11 @@ public class Main {
 	public static void getPrintBeeHouse(Scanner sc) {
 		
 		int c = _factorialBee(sc.nextInt(), 1, 1);
-		System.out.println(c);
 		
+		
+		System.out.println(c);
 	}
-	
+
 	public static int _factorialBee(int c, int n, int k) {
 
 		if(c == 1) return 1;
@@ -337,20 +581,20 @@ public class Main {
 	 * @param sc
 	 */
 	public static void getStartOne(Scanner sc) {
-		
+
 		int nStarCount = sc.nextInt();
 		int nLoopCount = nStarCount;
-		
+
 		while(nLoopCount-->0) {
 
 			System.out.println(_lpad("", (nStarCount - nLoopCount), '*'));
 		}
 	}
-	
+
 	public static String _lpad(String str, int count, char filler) {
-		
+
 		if(str.length() >= count) {
-			
+
 			return str;
 		}
 		
@@ -383,8 +627,9 @@ public class Main {
 	 * @param sc Scanner
 	 */
 	public static void getDial (Scanner sc) {
+		final int CONST_ALPHA_ASCII = 65;
 		
-		final int nOffsetNumber = 65 - (3 * 2);
+		final int nOffsetNumber = CONST_ALPHA_ASCII - (3 * 2);
 
 		String sResult = Arrays.stream(sc.nextLine().split("")).reduce("0", (r,e)->{
 			
@@ -412,7 +657,7 @@ public class Main {
 	 */
 	public static void getSangSu(Scanner sc) {
 		
-		int value = Arrays.asList(sc.next(),sc.next())
+		int value = Arrays.asList(sc.next(), sc.next())
 						  .stream()
 						  .map(Main::_getReverseWord)
 						  .map(Main::_getStringToInt)
@@ -487,16 +732,15 @@ public class Main {
 	 * @param sc Scanner
 	 */
 	public static void getCountingGroup(Scanner sc) {
+		final int CONST_ALPHA_ASCII = 65;
 		
 		int[] Lascii = new int[26];
 		String sStr = sc.nextLine();
 		
 		Arrays.stream(sStr.split("")).forEach(e->{
 			
-			++Lascii[(int)e.toUpperCase().charAt(0)-65];
+			++Lascii[(int)e.toUpperCase().charAt(0) - CONST_ALPHA_ASCII];
 		});
-		
-		final int nResetNumber = 1;
 		
 		int Lsize = Lascii.length;
 		int iMaxIndex = 0
@@ -514,12 +758,12 @@ public class Main {
 			}else if ( iTemp > iMax ) {
 				
 				iMaxIndex = Lsize;
-				iMax = iTemp;
-				iCount = nResetNumber;
+				iMax      = iTemp;
+				iCount    = 1;
 			}
 		}
 		
-		System.out.println(iCount > 1 ? "?":(char)(iMaxIndex+65));
+		System.out.println(iCount > 1 ? "?":(char)(iMaxIndex+CONST_ALPHA_ASCII));
 	}
 	
 	/**

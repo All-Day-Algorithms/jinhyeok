@@ -298,10 +298,32 @@ public class Main {
 		getAlphaCentauri2(sc);
 		*/
 		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 5	10250	ACM 호텔
+		 */
+		
+		/*
+		getAcmHotel(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 7	2775	부녀회장이 될테야
+		 */
+		
+		getDoFemalePresident(sc);
+		
 		long end = System.currentTimeMillis();
  
-		System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
+		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
 	}
+	
+	
 	
 	public static void getSortWord(Scanner sc) {
 		int nWordCount = sc.nextInt();
@@ -329,6 +351,53 @@ public class Main {
 		
 		return 0;
 	}	
+	
+	/**
+	 * Test ::
+	 * 2
+	 * 1
+	 * 3
+	 * 2
+	 * 3
+	 * 
+	 * @param sc
+	 */
+	public static void getDoFemalePresident(Scanner sc){
+		
+	}
+
+	/**
+	 * Test :: 
+	 * 2
+	 * 6 12 10
+	 * 30 50 72
+	 * 
+	 * @param sc
+	 * @throws IOException 
+	 */
+	public static void getAcmHotel(Scanner sc) throws IOException {
+
+		int iCustomerCount = sc.nextInt();
+
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		while(iCustomerCount --> 0) {
+
+			int iX = sc.nextInt();sc.nextInt();
+
+			int iCount = sc.nextInt();
+			
+			int iDong  = (iCount % iX);
+			int iHo    = (iCount / iX);
+
+			if(iDong == 0) iDong += iX;
+			else iHo += 1;
+
+			out.write( Integer.toString(iDong) + _lpad(Integer.toString(iHo), 2, '0')+"\n");
+		}
+
+		out.flush();
+	}
 
 	/**
 	 * Test ::
@@ -587,11 +656,11 @@ public class Main {
 
 		while(nLoopCount-->0) {
 
-			System.out.println(_lpad("", (nStarCount - nLoopCount), '*'));
+			System.out.println(_rpad("", (nStarCount - nLoopCount), '*'));
 		}
 	}
 
-	public static String _lpad(String str, int count, char filler) {
+	public static String _rpad(String str, int count, char filler) {
 
 		if(str.length() >= count) {
 
@@ -600,6 +669,20 @@ public class Main {
 		
 		for(int s = str.length() ; s < count ; s++) {
 			str = str + filler;
+		}
+		
+		return str;
+	}
+	
+	public static String _lpad(String str, int count, char filler) {
+
+		if(str.length() >= count) {
+
+			return str;
+		}
+		
+		for(int s = str.length() ; s < count ; s++) {
+			str = filler + str;
 		}
 		
 		return str;

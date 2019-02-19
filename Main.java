@@ -15,6 +15,8 @@ import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.processing.SupportedSourceVersion;
+
 public class Main {
 	
 	public static void main(String[] args) 
@@ -316,7 +318,29 @@ public class Main {
 		 * 7	2775	부녀회장이 될테야
 		 */
 		
+		/*
 		getDoFemalePresident(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 8	1475	방 번호
+		 */
+		
+		/*
+		getRoomNumber(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 9	6064	카잉 달력
+		 */
+		
+		getKaing(sc);
 		
 		long end = System.currentTimeMillis();
  
@@ -352,6 +376,79 @@ public class Main {
 		return 0;
 	}	
 	
+	
+	/**
+	 * Test 
+	 * 3
+	 * 10 12 3 9
+	 * 10 12 7 2
+	 * 13 11 5 6
+	 * 
+	 * @param sc
+	 * @throws IOException
+	 */
+	public static void getKaing(Scanner sc) throws IOException {
+		
+		int iLoopCount = sc.nextInt();
+		
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		while(iLoopCount --> 0) {
+			
+			int iX = sc.nextInt()
+			  , iY = sc.nextInt()
+			  , iM = sc.nextInt()
+		      , iN = sc.nextInt()
+			  , ix = iM
+			  , iy = iN
+			  , iEnd = (iX%2 == 0 && iY %2 == 0) ? ( (iX * iY) / 2 ) : (iX * iY);
+			
+			while(true) {
+				
+				if(ix >= iEnd || iy >= iEnd) {
+					out.write(-1+"\n");
+					break;
+				} else if(ix == iy) {
+					out.write(ix+"\n");
+					break;
+				}
+				
+				if(ix > iy) iy += iY;
+				
+				if(ix < iy) ix += iX;
+			}
+			
+			out.flush();
+		}
+	}
+	
+
+	/**
+	 * Test ::
+	 * 9999
+	 * 
+	 * @param sc
+	 */
+	public static void getRoomNumber(Scanner sc) {
+		
+		String str = Integer.toString(sc.nextInt());
+		
+		int[] iCountList = new int[9];
+		
+		for(int i = 0 ; i < str.length() ; i++) {
+
+			int iValue = Integer.valueOf(str.substring(i, i+1));
+			
+			iCountList[iValue == 9 ? 6 : iValue] += 1;
+		}
+		
+		if(iCountList[6] > 0) {
+			iCountList[6] = Math.round(iCountList[6] / (float)2);
+		}
+		
+		System.out.println(Arrays.stream(iCountList).max().getAsInt());
+	}
+	
 	/**
 	 * Test ::
 	 * 2
@@ -364,6 +461,33 @@ public class Main {
 	 */
 	public static void getDoFemalePresident(Scanner sc){
 		
+		int iRoomCount = sc.nextInt();
+		
+		while(iRoomCount --> 0) {
+			
+			int iDong = (sc.nextInt() + 1);
+			int iHo   = sc.nextInt();
+			
+			int[][] sApt = new int[iDong][iHo];
+			
+			for(int i = 0 ; i < iDong ; i++) {
+				for(int j = 1 ; j <= iHo ; j++) {
+					
+					if(i == 0) {
+						
+						sApt[i][j-1] = j;
+					} else if(j == 1) {
+						
+						sApt[i][j-1] = 1;
+					} else {
+						
+						sApt[i][j-1] = sApt[i-1][j-1] + sApt[i][j-2]; 
+					}
+				}
+			}
+
+			System.out.println(sApt[iDong-1][iHo-1]);
+		}
 	}
 
 	/**

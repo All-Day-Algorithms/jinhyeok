@@ -12,10 +12,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.annotation.processing.SupportedSourceVersion;
 
 public class Main {
 	
@@ -24,8 +23,9 @@ public class Main {
 		
 		long start = System.currentTimeMillis();
 		
-		Scanner sc = new Scanner(System.in);
+		Scanner sc        = new Scanner(System.in);
 		
+		BufferedReader in  = new BufferedReader(new InputStreamReader(System.in));
 		/** 
 		 * ---------------------
 		 * 단계    문제 번호     제목
@@ -339,9 +339,45 @@ public class Main {
 		 * ---------------------
 		 * 9	6064	카잉 달력
 		 */
-		
+
+		/*
 		getKaing(sc);
+		*/
 		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 1	2750	수 정렬하기
+		 */
+		
+		/*
+		getSort(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 2	2751	수 정렬하기 2
+		 */
+		
+		/*
+		getSort2(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 2	2751	수 정렬하기 2
+		 */
+		
+		/*
+		getSort3(in);
+		*/
+		
+		getStatistics(sc);
 		long end = System.currentTimeMillis();
  
 		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
@@ -374,8 +410,211 @@ public class Main {
 		}
 		
 		return 0;
-	}	
+	}
 	
+	/**
+	 * 
+5
+1
+3
+8
+-2
+2
+	 * @param sc
+	 */
+	public static void getStatistics(Scanner sc) {
+		List<Integer> stream = getIntListForScanner(sc.nextInt(), sc);
+		int size = stream.size();
+		
+		int reduce = stream.parallelStream().reduce(0, (t,u)->t+u).intValue();
+		
+		System.out.println(Math.round(reduce / (float)size));
+	}
+	
+	/**
+	 * Test ::
+	 * 10
+	 * 5
+	 * 2
+	 * 3
+	 * 1
+	 * 4
+	 * 2
+	 * 3
+	 * 5
+	 * 1
+	 * 7
+	 * 
+	 * @param in BufferedReader 
+	 * 
+	 * @throws IOException 
+	 */
+	public static void getSort3(BufferedReader in) throws IOException {
+		
+		getCountingSort(new BufferedScanner(in));
+	}
+	
+	
+	/**
+	 * 스캐너와 동일 하기 사용 하기 위하여 클래스 선언
+	 */
+	static class BufferedScanner {
+
+		private BufferedReader in;
+
+		public BufferedScanner(BufferedReader in) {
+			this.in = in;
+		}
+		
+		public int nextIntLine() throws IOException {
+
+			return Integer.parseInt(in.readLine());
+		}
+	}
+	
+	public static void getCountingSort(BufferedScanner in) throws IOException {
+		
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		int iCountNumber  = in.nextIntLine()
+		  , maxCount      = 99999
+          , iMax          = 0
+          , iCachedNumber = 0;
+
+        int[] iArr = new int[maxCount];
+
+		while(iCountNumber --> 0) 
+			iArr[(iCachedNumber = in.nextIntLine()) > iMax ? 
+					iMax = iCachedNumber : iCachedNumber]++;
+
+        for (int i = 0; i <= iMax; i++)
+        	if (iArr[i] == 0) continue;
+        	else while(iArr[i]-->0) out.write(i + "\n");
+        
+        out.flush();
+	}
+	
+	/**
+	 * Test ::
+	 * 5
+	 * 5
+	 * 4
+	 * 3
+	 * 2
+	 * 1
+	 * 
+	 * @param sc Scanner
+	 * @throws IOException 
+	 */
+	public static void getSort2(Scanner sc) throws IOException {
+		int[] unsorted = getIntListForScanner(sc.nextInt(), sc).stream()
+				                                               .mapToInt(e->e)
+				                                               .toArray();
+		getMergeSort(unsorted);
+	}
+	
+	/**
+	 * 병합 정렬
+	 * @param unsorted 정렬 되지 않은 배열
+	 * 
+	 * @throws IOException
+	 */
+	public static void getMergeSort(int[] unsorted) throws IOException {
+
+		new MergeSortableNode(unsorted)
+							.sortChain()
+							.print();
+	}
+	/**
+	 * 병합 정렬을 위한 클래스
+	 */
+	static class MergeSortableNode {
+		
+		public MergeSortableNode(int[] values) {
+			this.values = values;
+			
+			int iMid = Math.round(values.length / (float)2);
+			
+			if(values.length > 1) {
+				
+				/** Divide (분할)*/
+				childNodes    = new MergeSortableNode[2];
+				childNodes[0] = new MergeSortableNode(Arrays.copyOfRange(values, 0, iMid));
+				childNodes[1] = new MergeSortableNode(Arrays.copyOfRange(values, iMid, values.length));
+			}
+		}
+		
+		/**
+		 * 출력 함수
+		 * 
+		 * @throws IOException
+		 */
+		private void print() throws IOException {
+			
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+			for(int x : values) out.write(x+"\n");
+			out.flush();
+		}
+
+		private int[] getElements() { return this.values; }
+		
+		/**
+		 * 정렬 함수
+		 * @return 현재 객체 반환
+		 */
+		public MergeSortableNode sortChain(){
+			
+			if(childNodes == null) return this;
+			
+			/** Conquer (정복)*/
+			childNodes[0].sortChain();
+			childNodes[1].sortChain();
+			
+			/** Combine (결합)*/
+			int[] m = childNodes[0].getElements();
+			int[] n = childNodes[1].getElements();
+			
+			int ix = 0
+			  , iy = 0;
+			
+			for(int i = 0 ; i < values.length ; i++) {
+				
+				if(ix >= m.length)
+					values[i] = n[iy++];
+				else if(iy >= n.length)
+					values[i] = m[ix++];
+				else
+					if(m[ix] < n[iy]) values[i] = m[ix++];
+					else values[i] = n[iy++];
+			}
+			
+			return this;
+		}
+		
+		private int[] values;
+		
+		private MergeSortableNode[] childNodes;
+	}
+	
+	
+	/**
+	 * Test ::
+	 * 5
+	 * 5
+	 * 2
+	 * 3
+	 * 4
+	 * 1
+	 * 
+	 * @param sc
+	 */
+	public static void getSort(Scanner sc) {
+
+		getIntListForScanner(sc.nextInt(), sc).stream()
+											  .sorted()
+											  .distinct()
+											  .forEach(System.out::println);
+	}
 	
 	/**
 	 * Test 

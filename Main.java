@@ -315,6 +315,17 @@ public class Main {
 		 * ---------------------
 		 * 단계    문제 번호     제목
 		 * ---------------------
+		 * 5	10250	ACM 호텔
+		 */
+		
+		/*
+		get2007(sc);
+		*/
+		
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
 		 * 7	2775	부녀회장이 될테야
 		 */
 		
@@ -361,30 +372,83 @@ public class Main {
 		 * ---------------------
 		 * 2	2751	수 정렬하기 2
 		 */
-		
+
 		/*
 		getSort2(sc);
+		*/
+
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 3	10989	수 정렬하기 3
+		 */
+
+		/*
+		getSort3(in);
+		*/
+
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 4	2108	통계학
+		 */
+		
+		/*
+		getStatistics(sc);
 		*/
 		
 		/**
 		 * ---------------------
 		 * 단계    문제 번호     제목
 		 * ---------------------
-		 * 2	2751	수 정렬하기 2
+		 * 5	1427	소트인사이드
 		 */
 		
 		/*
-		getSort3(in);
+		getSortInside(sc);
 		*/
 		
-		getStatistics(sc);
+		/**
+		 * ---------------------
+		 * 단계    문제 번호     제목
+		 * ---------------------
+		 * 6	1181	단어 정렬
+		 */
+		
+		/*
+		getSortWord(sc);
+		*/
+		
+		
+		
+		
+		
 		long end = System.currentTimeMillis();
  
 		//System.out.printf("실행 시간 : %.3f(초)",(end-start) / 1000.0);
 	}
 	
 	
-	
+	/**
+	 * 13
+	 * but
+	 * i
+	 * wont
+	 * hesitate
+	 * no
+	 * more
+	 * no
+	 * more
+	 * it
+	 * cannot
+	 * wait
+	 * im
+	 * yours
+	 * 
+	 * @param sc
+	 */
 	public static void getSortWord(Scanner sc) {
 		int nWordCount = sc.nextInt();
 	
@@ -413,22 +477,89 @@ public class Main {
 	}
 	
 	/**
+	 * Test ::
+	 * 2143
 	 * 
-5
-1
-3
-8
--2
-2
+	 * @param sc
+	 */
+	public static void getSortInside(Scanner sc) {
+		
+		String sVal = Arrays.stream(sc.nextLine().split(""))
+				            .sorted((e,f)->Integer.valueOf(f)-Integer.valueOf(e))
+				            .reduce((t,u)->t+u)
+				            .get();
+		
+		System.out.println(sVal);
+		
+		
+	}
+	
+	/**
+	 * 5
+	 * 1
+	 * 3
+	 * 8
+	 * -2
+	 * 2
+	 * 
 	 * @param sc
 	 */
 	public static void getStatistics(Scanner sc) {
-		List<Integer> stream = getIntListForScanner(sc.nextInt(), sc);
-		int size = stream.size();
+		List<Integer> stream = getIntListForScanner(sc.nextInt(), sc).stream()
+																	 .sorted()
+																	 .collect(Collectors.toList());
+
+		int iSize = stream.size();
+
+		Map<Integer, Integer> hm = new HashMap<>();
+
+		int iAcu = 0, iAvg = 0	/** 산술 평균  */
+		  , iMid = (iSize / 2), iMidValue = 0 /** 중앙 값 */
+		  , iBetween = 0, iMin = Integer.MAX_VALUE, iMax = Integer.MIN_VALUE /** 범위 값, 최소 값, 최대 값 */
+		  , iCnt = 0, iMmp = 0, iBc = 0
+		  ;
 		
-		int reduce = stream.parallelStream().reduce(0, (t,u)->t+u).intValue();
+		List<Integer> alt = new ArrayList<>();
 		
-		System.out.println(Math.round(reduce / (float)size));
+		for( int i = 0 ; i < iSize ; i++ ) {
+
+			int iRow = stream.get(i);
+
+			// 산술평균 을 위한 합계
+			iAcu += iRow;
+			
+			// 최소 값
+			if ( iMin > iRow ) iMin    = iRow;
+			// 최대 값
+			if ( iMax < iRow ) iMax    = iRow;
+			// 중간 값
+			if ( iMid == i ) iMidValue = iRow;
+			
+			// 최빈 값을 찾기 위하여 카운팅
+			if(hm.containsKey(iRow)) iCnt = hm.get(iRow)+1;
+			else iCnt = 1;
+
+			// 최빈 값과 동일 할 경우 리스트에 캐시
+			if(iMmp == iCnt) alt.add(iRow);
+			
+			// 현재 최빈 값 보다 높은 수일 경우 테이블 변경
+			if(iMmp < iCnt) {
+				iMmp = iCnt;
+				alt.clear();
+				alt.add(iRow);
+			}
+			
+			hm.put(iRow, iCnt);
+		}
+		
+		iAvg     = Math.round(iAcu/(float)iSize);
+		iBetween = (iMax - iMin);
+		iBc = alt.size() > 1 ? alt.get(1) : alt.get(0);
+		
+		System.out.println(iAvg);
+		System.out.println(iMidValue);
+		System.out.println(iBc);
+		System.out.println(iBetween);
 	}
 	
 	/**
@@ -727,6 +858,24 @@ public class Main {
 
 			System.out.println(sApt[iDong-1][iHo-1]);
 		}
+	}
+	
+	/**
+	 * 1 1
+	 * 
+	 * @param sc Scanner
+	 */
+	public static void get2007(Scanner sc) {
+
+		int mm = sc.nextInt();
+		int dd = sc.nextInt();
+
+		String[] binder = new String[] {
+			"SUN", "MON", "TUE", "WED",
+			"THU", "FRI", "SAT"	
+		};
+		
+		System.out.println(binder[new java.sql.Date(2007-1900, mm-1, dd).getDay()]);
 	}
 
 	/**

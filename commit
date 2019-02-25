@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ -z $1 ]; then
-	echo 'parameters is empth';
-else
-	git add *;
-	git commit -am "$1";
-	git push;
-fi;
+# keep status this folder
+# commit this state
+# hub push
+git add *;
+git commit -am "date +%Y-%m-%d" ;
+git push;
+

@@ -3,7 +3,8 @@
 # keep status this folder
 # commit this state
 # hub push
+
 git add *;
-git commit -am 'date +%Y-%m-%d' ;
+git commit -am $(date +%Y-%m-%d);
 git push;
 
